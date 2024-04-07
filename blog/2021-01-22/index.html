@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en" prefix="og: http://ogp.me/ns#">
+<head>
+    <meta charset="utf-8">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="referrer" content="no-referrer-when-downgrade">
+
+    <title>Implement handle error in Function Azure App - Papaya</title>
+    <meta name="description" content="A clean Zola theme for blogging and projects">
+
+    
+    <link rel="stylesheet" href="https://wclee.me/base.css">
+    <link rel="stylesheet" href="https://wclee.me/auto.css">
+
+    <link rel="preload" href=https:&#x2F;&#x2F;cdnjs.cloudflare.com&#x2F;ajax&#x2F;libs&#x2F;font-awesome&#x2F;6.3.0&#x2F;css&#x2F;all.min.css as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href=https:&#x2F;&#x2F;cdnjs.cloudflare.com&#x2F;ajax&#x2F;libs&#x2F;font-awesome&#x2F;6.3.0&#x2F;css&#x2F;all.min.css></noscript>
+
+    
+    <link rel="alternate" type="application/atom+xml" title="RSS" href="https://wclee.me/atom.xml">
+    
+
+    
+    
+    <meta property="og:locale" content="en_US">
+    
+    <meta property="og:title" content="Implement handle error in Function Azure App">
+    
+    <meta property="og:type" content="article">
+    <meta property="article:author" content="https://wclee.me/about/">
+    <meta property="article:published_time" content="2021-01-22">
+    
+    
+    <meta property="article:tag" content="cloud">
+    
+    
+    
+    
+    <meta property="og:url" content="https://wclee.me/blog/2021-01-22/">
+    
+    
+
+
+    
+    
+</head>
+<body>
+<div class="container">
+    
+    
+    <header>
+        <h1 class="site-header">
+            <a href="https:&#x2F;&#x2F;wclee.me">Papaya</a>
+        </h1>
+        <nav>
+            <ul>
+            
+            
+                
+                <li><a  href="https:&#x2F;&#x2F;wclee.me&#x2F;projects">Projects</a></li>
+            
+                
+                <li><a class="active" href="https:&#x2F;&#x2F;wclee.me&#x2F;blog">Blog</a></li>
+            
+                
+                <li><a  href="https:&#x2F;&#x2F;wclee.me&#x2F;tags">Tags</a></li>
+            
+                
+                <li><a  href="https:&#x2F;&#x2F;wclee.me&#x2F;about">About</a></li>
+            
+            
+            </ul>
+        </nav>
+    </header>
+    
+    
+
+<article class="post">
+    
+    
+    
+        
+        <header>
+            <h1>Implement handle error in Function Azure App</h1>
+        </header>
+        
+    <div class="article-info">
+        
+        
+        <div class="article-date">January 22, 2021 ◦ 1 min ◦ </div>
+        
+        <div class="article-taxonomies">
+            
+            
+                <ul class="article-tags">
+                    
+                    <li><a href="https://wclee.me/tags/cloud/">#cloud</a></li>
+                    
+                </ul>
+            
+        </div>
+    </div>
+
+    
+    
+    <div class="content">
+        <pre data-lang="css" class="language-css z-code"><code class="language-css" data-lang="css"><span class="z-source z-css"><span class="z-meta z-property-list z-css"><span class="z-punctuation z-section z-property-list z-css">{</span>
+</span></span><span class="z-source z-css"><span class="z-meta z-property-list z-css">    &quot;<span class="z-meta z-property-name z-css">disabled</span>&quot;<span class="z-punctuation z-separator z-key-value z-css">:</span><span class="z-meta z-property-value z-css">false,
+</span></span></span><span class="z-source z-css"><span class="z-meta z-property-list z-css"><span class="z-meta z-property-value z-css">    <span class="z-string z-quoted z-double z-css"><span class="z-punctuation z-definition z-string z-begin z-css">&quot;</span>bindings<span class="z-punctuation z-definition z-string z-end z-css">&quot;</span></span>:<span class="z-punctuation z-section z-begin z-css">[</span>
+</span></span></span><span class="z-source z-css"><span class="z-meta z-property-list z-css"><span class="z-meta z-property-value z-css">        // ... <span class="z-string z-unquoted z-line-name z-css">bindings</span> <span class="z-string z-unquoted z-line-name z-css">here</span>
+</span></span></span><span class="z-source z-css"><span class="z-meta z-property-list z-css"><span class="z-meta z-property-value z-css">        {
+</span></span></span><span class="z-source z-css"><span class="z-meta z-property-list z-css"><span class="z-meta z-property-value z-css">            &quot;<span class="z-string z-unquoted z-line-name z-css">type</span>&quot;: &quot;<span class="z-string z-unquoted z-line-name z-css">bindingType</span>&quot;,
+</span></span></span><span class="z-source z-css"><span class="z-meta z-property-list z-css"><span class="z-meta z-property-value z-css">            &quot;<span class="z-string z-unquoted z-line-name z-css">direction</span>&quot;: &quot;<span class="z-string z-unquoted z-line-name z-css">in</span>&quot;,
+</span></span></span><span class="z-source z-css"><span class="z-meta z-property-list z-css"><span class="z-meta z-property-value z-css">            &quot;<span class="z-string z-unquoted z-line-name z-css">name</span>&quot;: &quot;<span class="z-string z-unquoted z-line-name z-css">myParamName</span>&quot;,
+</span></span></span><span class="z-source z-css"><span class="z-meta z-property-list z-css"><span class="z-meta z-property-value z-css">            // ... <span class="z-string z-unquoted z-line-name z-css">more</span> <span class="z-string z-unquoted z-line-name z-css">depending</span> <span class="z-string z-unquoted z-line-name z-css">on</span> <span class="z-string z-unquoted z-line-name z-css">binding</span>
+</span></span></span><span class="z-source z-css"><span class="z-meta z-property-list z-css"><span class="z-meta z-property-value z-css">        }
+</span></span></span><span class="z-source z-css"><span class="z-meta z-property-list z-css"><span class="z-meta z-property-value z-css">    <span class="z-punctuation z-section z-end z-css">]</span>
+</span></span></span><span class="z-source z-css"><span class="z-meta z-property-list z-css"><span class="z-meta z-property-value z-css"></span></span><span class="z-punctuation z-section z-property-list z-css">}</span>
+</span></code></pre>
+
+    </div>
+    
+
+    
+</article>
+
+
+    <footer>
+        <p>
+            
+<span class="icon-text">
+  
+
+  
+
+  
+  <a href="https://github.com/ryota-vl" aria-label="Open ryota-vl GitHub" target="_blank">
+    <span class="icon is-large">
+      <i class="fab fa-github fa-lg" aria-hidden="true" title="GitHub"></i>
+    </span>
+  </a>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  <a href="mailto:hello@wclee.me" aria-label="Email hello@wclee.me" target="_blank">
+    <span class="icon is-large">
+      <i class="far fa-envelope fa-lg" aria-hidden="true" title="email"></i>
+    </span>
+  </a>
+  
+
+  
+  <a href="https:&#x2F;&#x2F;wclee.me/atom.xml" aria-label="Open atom xml feed" target="_blank">
+    <span class="icon is-large">
+      <i class="fas fa-rss fa-lg" aria-hidden="true" title="atom xml feed"></i>
+    </span>
+  </a>
+  
+
+  
+</span>
+
+        </p>
+        <p>
+            
+            
+        </p>
+    </footer>
+</div>
+</body>
+</html>

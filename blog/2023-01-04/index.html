@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en" prefix="og: http://ogp.me/ns#">
+<head>
+    <meta charset="utf-8">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="referrer" content="no-referrer-when-downgrade">
+
+    <title>CKA&#x2F;CKAD 2023 考試心得 - Papaya</title>
+    <meta name="description" content="A clean Zola theme for blogging and projects">
+
+    
+    <link rel="stylesheet" href="https://wclee.me/base.css">
+    <link rel="stylesheet" href="https://wclee.me/auto.css">
+
+    <link rel="preload" href=https:&#x2F;&#x2F;cdnjs.cloudflare.com&#x2F;ajax&#x2F;libs&#x2F;font-awesome&#x2F;6.3.0&#x2F;css&#x2F;all.min.css as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href=https:&#x2F;&#x2F;cdnjs.cloudflare.com&#x2F;ajax&#x2F;libs&#x2F;font-awesome&#x2F;6.3.0&#x2F;css&#x2F;all.min.css></noscript>
+
+    
+    <link rel="alternate" type="application/atom+xml" title="RSS" href="https://wclee.me/atom.xml">
+    
+
+    
+    
+    <meta property="og:locale" content="en_US">
+    
+    <meta property="og:title" content="CKA&#x2F;CKAD 2023 考試心得">
+    
+    <meta property="og:type" content="article">
+    <meta property="article:author" content="https://wclee.me/about/">
+    <meta property="article:published_time" content="2023-01-03">
+    
+    
+    
+    <meta property="og:url" content="https://wclee.me/blog/2023-01-04/">
+    
+    
+
+
+    
+    
+</head>
+<body>
+<div class="container">
+    
+    
+    <header>
+        <h1 class="site-header">
+            <a href="https:&#x2F;&#x2F;wclee.me">Papaya</a>
+        </h1>
+        <nav>
+            <ul>
+            
+            
+                
+                <li><a  href="https:&#x2F;&#x2F;wclee.me&#x2F;projects">Projects</a></li>
+            
+                
+                <li><a class="active" href="https:&#x2F;&#x2F;wclee.me&#x2F;blog">Blog</a></li>
+            
+                
+                <li><a  href="https:&#x2F;&#x2F;wclee.me&#x2F;tags">Tags</a></li>
+            
+                
+                <li><a  href="https:&#x2F;&#x2F;wclee.me&#x2F;about">About</a></li>
+            
+            
+            </ul>
+        </nav>
+    </header>
+    
+    
+
+<article class="post">
+    
+    
+    
+        
+        <header>
+            <h1>CKA&#x2F;CKAD 2023 考試心得</h1>
+        </header>
+        
+    <div class="article-info">
+        
+        
+        <div class="article-date">January  3, 2023 ◦ 5 min ◦ </div>
+        
+        <div class="article-taxonomies">
+            
+            
+        </div>
+    </div>
+
+    
+    
+    <div class="content">
+        <h2 id="qian-yan">前言<a class="zola-anchor" href="#qian-yan" aria-label="Anchor link for: qian-yan">
+    <svg class="zola-anchor-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">
+        <path fill-rule="evenodd"
+            d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z">
+        </path>
+    </svg>
+</a>
+</h2>
+<p>我們團隊一直都有在用託管的 kubernetes 服務，像是 Amazon EKS、Azure AKS 部屬應用程式或是服務，對於 kubernetes 的基本基礎和元件都不是很熟悉，想透過學習的方式，有個全面性的概念與知識。</p>
+<h2 id="kao-shi-jie-shao">考試介紹<a class="zola-anchor" href="#kao-shi-jie-shao" aria-label="Anchor link for: kao-shi-jie-shao">
+    <svg class="zola-anchor-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">
+        <path fill-rule="evenodd"
+            d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z">
+        </path>
+    </svg>
+</a>
+</h2>
+<p>The Linux Foundation 推出的 Kubernetes 證照，目前共有四張，分別是</p>
+<ul>
+<li>Certified Kubernetes and Cloud Native Associate (KCNA)</li>
+<li>Certified Kubernetes Application Developer (CKAD)</li>
+<li>Certified Kubernetes Administrator (CKA)</li>
+<li>Certified Kubernetes Security Specialist (CKS)</li>
+</ul>
+<h2 id="gou-mai-kao-shi">購買考試<a class="zola-anchor" href="#gou-mai-kao-shi" aria-label="Anchor link for: gou-mai-kao-shi">
+    <svg class="zola-anchor-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">
+        <path fill-rule="evenodd"
+            d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z">
+        </path>
+    </svg>
+</a>
+</h2>
+<p>我是在 2021 的黑色星期五，用 35% 的折扣碼，購買原價 375 美金，實際價格是 243.75 美金，2022 年價格原價 395 美金，購買後一年期限內，都可以從系統上預約考試。</p>
+<h2 id="cka-kao-shi-fan-wei">CKA 考試範圍<a class="zola-anchor" href="#cka-kao-shi-fan-wei" aria-label="Anchor link for: cka-kao-shi-fan-wei">
+    <svg class="zola-anchor-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">
+        <path fill-rule="evenodd"
+            d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z">
+        </path>
+    </svg>
+</a>
+</h2>
+<ul>
+<li>Cluster Architecture, Installation &amp; Configuration - 25%</li>
+<li>Workloads &amp; Scheduling - 15%</li>
+<li>Services &amp; Networking - 20%</li>
+<li>Storage - 10%</li>
+<li>Troubleshooting - 30%</li>
+</ul>
+<h2 id="ckad-kao-shi-fan-wei">CKAD 考試範圍<a class="zola-anchor" href="#ckad-kao-shi-fan-wei" aria-label="Anchor link for: ckad-kao-shi-fan-wei">
+    <svg class="zola-anchor-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">
+        <path fill-rule="evenodd"
+            d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z">
+        </path>
+    </svg>
+</a>
+</h2>
+<ul>
+<li>Application Design and Build - 20%</li>
+<li>Application Deployment - 20%</li>
+<li>Application Environment, Configuration, and Security-25%</li>
+<li>Services and Networking - 20%</li>
+</ul>
+<p>雖然考前網路上的文章都說兩邊的內容重複，但實際考下來，CKA 比較偏向維運的範圍，而 CKAD 則是偏向開發佈署的範圍。像是 CKA 就會考到 Node 的更新，而 CKAD 則是會考到佈署流程或是如何分散佈署時的更新。</p>
+<h2 id="xue-xi-zi-yuan">學習資源<a class="zola-anchor" href="#xue-xi-zi-yuan" aria-label="Anchor link for: xue-xi-zi-yuan">
+    <svg class="zola-anchor-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">
+        <path fill-rule="evenodd"
+            d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z">
+        </path>
+    </svg>
+</a>
+</h2>
+<ul>
+<li><a href="https://www.udemy.com/course/certified-kubernetes-administrator-with-practice-tests/">Certified Kubernetes Administrator (CKA) with Practice Tests</a></li>
+<li><a href="https://www.udemy.com/course/certified-kubernetes-application-developer/">Kubernetes Certified Application Developer (CKAD) with Tests</a></li>
+<li><a href="https://killer.sh/">killer.sh</a> (模擬考題): 記得從 The Linux Foundation 的入口進去，才會得到兩次免費模擬考的機會。</li>
+</ul>
+<h4 id="mo-ni-kao-ti">模擬考題<a class="zola-anchor" href="#mo-ni-kao-ti" aria-label="Anchor link for: mo-ni-kao-ti">
+    <svg class="zola-anchor-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">
+        <path fill-rule="evenodd"
+            d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z">
+        </path>
+    </svg>
+</a>
+</h4>
+<p>記得從 Linux Foundation 報名，會有兩次模擬考的機會，總共會有 preview questions、mock questions、Extra questions 大概有 25-26 題左右。</p>
+<h2 id="kao-shi-huan-jing">考試環境<a class="zola-anchor" href="#kao-shi-huan-jing" aria-label="Anchor link for: kao-shi-huan-jing">
+    <svg class="zola-anchor-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">
+        <path fill-rule="evenodd"
+            d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z">
+        </path>
+    </svg>
+</a>
+</h2>
+<ul>
+<li>視訊用攝影機: 用筆電的攝影鏡頭就可以了，但就是要一直調整角度給監考官，如果看不清楚的話，考官也會叫你重新照給他看。</li>
+<li>CCTV(監視器): 因為家裡沒有一個整齊且安靜的空間，這幾次考試都是租借<a href="https://thehapp.com/">小樹屋</a>，所以房間內都有監視器，這部份監考官會希望你換一間考試的房間或是面向攝影機考試。如果有一個獨立的空間或是利用公司的會議室是最好的選擇。 </li>
+</ul>
+<h2 id="kao-shi-qian">考試前<a class="zola-anchor" href="#kao-shi-qian" aria-label="Anchor link for: kao-shi-qian">
+    <svg class="zola-anchor-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">
+        <path fill-rule="evenodd"
+            d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z">
+        </path>
+    </svg>
+</a>
+</h2>
+<p>第一次考試的時候，監考官認為護照的名字和系統的名字不一樣，本來是打算不讓我考試，後來發現在系統裡面發現是名字之間的連字符號(-)，系統上沒填到，馬上進入系統更新，重新進入 PSI 系統裡面，等待監考官檢查考試環境和證件，當時應該滿多人考試，等待時間很長，大約半小時，也是剛好提醒監考官系統名字有更新，才能夠順利考試。</p>
+<p>(!) 名字一定要跟護照一模一樣(包含連字號)，其他證件基本上沒有英文名字是不能證明，信用卡也是不行，這點千萬要注意。</p>
+<h2 id="kao-shi-ji-qiao">考試技巧<a class="zola-anchor" href="#kao-shi-ji-qiao" aria-label="Anchor link for: kao-shi-ji-qiao">
+    <svg class="zola-anchor-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">
+        <path fill-rule="evenodd"
+            d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z">
+        </path>
+    </svg>
+</a>
+</h2>
+<ul>
+<li>螢幕能夠越大越好，基本上題目和參考資料顯示各一半，所以文件查找或是尋找 keyword 都有點困難。</li>
+<li>基本上沒有時間每題都查文件，能夠用 kubectl 產生就使用 kubectl 產生。</li>
+</ul>
+<h2 id="kao-shi-hou">考試後<a class="zola-anchor" href="#kao-shi-hou" aria-label="Anchor link for: kao-shi-hou">
+    <svg class="zola-anchor-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">
+        <path fill-rule="evenodd"
+            d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z">
+        </path>
+    </svg>
+</a>
+</h2>
+<p>大概 24 小時之後，可以從網站查詢到成績，也會寄信通知。</p>
+
+    </div>
+    
+
+    
+</article>
+
+
+    <footer>
+        <p>
+            
+<span class="icon-text">
+  
+
+  
+
+  
+  <a href="https://github.com/ryota-vl" aria-label="Open ryota-vl GitHub" target="_blank">
+    <span class="icon is-large">
+      <i class="fab fa-github fa-lg" aria-hidden="true" title="GitHub"></i>
+    </span>
+  </a>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  <a href="mailto:hello@wclee.me" aria-label="Email hello@wclee.me" target="_blank">
+    <span class="icon is-large">
+      <i class="far fa-envelope fa-lg" aria-hidden="true" title="email"></i>
+    </span>
+  </a>
+  
+
+  
+  <a href="https:&#x2F;&#x2F;wclee.me/atom.xml" aria-label="Open atom xml feed" target="_blank">
+    <span class="icon is-large">
+      <i class="fas fa-rss fa-lg" aria-hidden="true" title="atom xml feed"></i>
+    </span>
+  </a>
+  
+
+  
+</span>
+
+        </p>
+        <p>
+            
+            
+        </p>
+    </footer>
+</div>
+</body>
+</html>

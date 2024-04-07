@@ -1,0 +1,447 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
+    <title>Papaya</title>
+    <subtitle>A clean Zola theme for blogging and projects</subtitle>
+    <link rel="self" type="application/atom+xml" href="https://wclee.me/atom.xml"/>
+    <link rel="alternate" type="text/html" href="https://wclee.me"/>
+    <generator uri="https://www.getzola.org/">Zola</generator>
+    <updated>2024-02-24T00:00:00+00:00</updated>
+    <id>https://wclee.me/atom.xml</id>
+    <entry xml:lang="en">
+        <title>[Design Pattern] 使用 Repository 設計模式 - 測試資料準備</title>
+        <published>2024-02-24T00:00:00+00:00</published>
+        <updated>2024-02-24T00:00:00+00:00</updated>
+        
+        <author>
+          <name>
+            
+              Unknown
+            
+          </name>
+        </author>
+        
+        <link rel="alternate" type="text/html" href="https://wclee.me/blog/2024-02-24/"/>
+        <id>https://wclee.me/blog/2024-02-24/</id>
+        
+        <content type="html" xml:base="https://wclee.me/blog/2024-02-24/">&lt;h2 id=&quot;qian-yan&quot;&gt;前言&lt;a class=&quot;zola-anchor&quot; href=&quot;#qian-yan&quot; aria-label=&quot;Anchor link for: qian-yan&quot;&gt;
+    &lt;svg class=&quot;zola-anchor-link&quot; viewBox=&quot;0 0 16 16&quot; version=&quot;1.1&quot; width=&quot;16&quot; height=&quot;16&quot; aria-hidden=&quot;true&quot;&gt;
+        &lt;path fill-rule=&quot;evenodd&quot;
+            d=&quot;M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z&quot;&gt;
+        &lt;&#x2F;path&gt;
+    &lt;&#x2F;svg&gt;
+&lt;&#x2F;a&gt;
+&lt;&#x2F;h2&gt;
+&lt;p&gt;在自動化測試案例中，第一步是為這些測試案例準備測試資料。測試資料的來源可能來自於文件、資料庫或呼叫 API 請求的結果。以下介紹如何是用 Repository 設計模式準備測試資料。&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;mu-lu&quot;&gt;目錄&lt;a class=&quot;zola-anchor&quot; href=&quot;#mu-lu&quot; aria-label=&quot;Anchor link for: mu-lu&quot;&gt;
+    &lt;svg class=&quot;zola-anchor-link&quot; viewBox=&quot;0 0 16 16&quot; version=&quot;1.1&quot; width=&quot;16&quot; height=&quot;16&quot; aria-hidden=&quot;true&quot;&gt;
+        &lt;path fill-rule=&quot;evenodd&quot;
+            d=&quot;M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z&quot;&gt;
+        &lt;&#x2F;path&gt;
+    &lt;&#x2F;svg&gt;
+&lt;&#x2F;a&gt;
+&lt;&#x2F;h2&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;建立記憶體存取層&lt;&#x2F;p&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;
+&lt;p&gt;通用 Repository 設計模式&lt;&#x2F;p&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;
+&lt;p&gt;摘要&lt;&#x2F;p&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;
+&lt;p&gt;更多範例: Repository: Restful API 服務&lt;&#x2F;p&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;
+&lt;p&gt;更多範例: 在性能測試中的應用&lt;&#x2F;p&gt;
+&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;h2 id=&quot;user&quot;&gt;User&lt;a class=&quot;zola-anchor&quot; href=&quot;#user&quot; aria-label=&quot;Anchor link for: user&quot;&gt;
+    &lt;svg class=&quot;zola-anchor-link&quot; viewBox=&quot;0 0 16 16&quot; version=&quot;1.1&quot; width=&quot;16&quot; height=&quot;16&quot; aria-hidden=&quot;true&quot;&gt;
+        &lt;path fill-rule=&quot;evenodd&quot;
+            d=&quot;M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z&quot;&gt;
+        &lt;&#x2F;path&gt;
+    &lt;&#x2F;svg&gt;
+&lt;&#x2F;a&gt;
+&lt;&#x2F;h2&gt;
+&lt;p&gt;使用者資料的表示將是一個名為 User 的資料類別，其中包含一些個人資訊，例如電子郵件、使用者名稱。&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;python&quot; class=&quot;language-python z-code&quot;&gt;&lt;code class=&quot;language-python&quot; data-lang=&quot;python&quot;&gt;&lt;span class=&quot;z-source z-python&quot;&gt;&lt;span class=&quot;z-meta z-statement z-import z-python&quot;&gt;&lt;span class=&quot;z-keyword z-control z-import z-python&quot;&gt;import&lt;&#x2F;span&gt; &lt;span class=&quot;z-meta z-qualified-name z-python&quot;&gt;&lt;span class=&quot;z-meta z-generic-name z-python&quot;&gt;dataclasses&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-python&quot;&gt;
+&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-python&quot;&gt;&lt;span class=&quot;z-meta z-annotation z-python&quot;&gt;&lt;span class=&quot;z-punctuation z-definition z-annotation z-python&quot;&gt;@&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-qualified-name z-python&quot;&gt;&lt;span class=&quot;z-meta z-generic-name z-python&quot;&gt;dataclasses&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-qualified-name z-python&quot;&gt;&lt;span class=&quot;z-punctuation z-accessor z-dot z-python&quot;&gt;.&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-qualified-name z-python&quot;&gt;&lt;span class=&quot;z-variable z-annotation z-python&quot;&gt;&lt;span class=&quot;z-meta z-generic-name z-python&quot;&gt;dataclass&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-python&quot;&gt;&lt;span class=&quot;z-meta z-class z-python&quot;&gt;&lt;span class=&quot;z-storage z-type z-class z-python&quot;&gt;&lt;span class=&quot;z-keyword z-declaration z-class z-python&quot;&gt;class&lt;&#x2F;span&gt;&lt;&#x2F;span&gt; &lt;span class=&quot;z-entity z-name z-class z-python&quot;&gt;&lt;span class=&quot;z-meta z-generic-name z-python&quot;&gt;User&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-punctuation z-section z-class z-begin z-python&quot;&gt;:&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-python&quot;&gt;  &lt;span class=&quot;z-meta z-qualified-name z-python&quot;&gt;&lt;span class=&quot;z-meta z-generic-name z-python&quot;&gt;email&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-punctuation z-separator z-annotation z-variable z-python&quot;&gt;:&lt;&#x2F;span&gt; &lt;span class=&quot;z-meta z-qualified-name z-python&quot;&gt;&lt;span class=&quot;z-support z-type z-python&quot;&gt;str&lt;&#x2F;span&gt;&lt;&#x2F;span&gt; &lt;span class=&quot;z-keyword z-operator z-assignment z-python&quot;&gt;=&lt;&#x2F;span&gt; &lt;span class=&quot;z-meta z-string z-python&quot;&gt;&lt;span class=&quot;z-string z-quoted z-double z-python&quot;&gt;&lt;span class=&quot;z-punctuation z-definition z-string z-begin z-python&quot;&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-string z-python&quot;&gt;&lt;span class=&quot;z-string z-quoted z-double z-python&quot;&gt;&lt;span class=&quot;z-punctuation z-definition z-string z-end z-python&quot;&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-python&quot;&gt;  &lt;span class=&quot;z-meta z-qualified-name z-python&quot;&gt;&lt;span class=&quot;z-meta z-generic-name z-python&quot;&gt;username&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-punctuation z-separator z-annotation z-variable z-python&quot;&gt;:&lt;&#x2F;span&gt; &lt;span class=&quot;z-meta z-qualified-name z-python&quot;&gt;&lt;span class=&quot;z-support z-type z-python&quot;&gt;str&lt;&#x2F;span&gt;&lt;&#x2F;span&gt; &lt;span class=&quot;z-keyword z-operator z-assignment z-python&quot;&gt;=&lt;&#x2F;span&gt; &lt;span class=&quot;z-meta z-string z-python&quot;&gt;&lt;span class=&quot;z-string z-quoted z-double z-python&quot;&gt;&lt;span class=&quot;z-punctuation z-definition z-string z-begin z-python&quot;&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-string z-python&quot;&gt;&lt;span class=&quot;z-string z-quoted z-double z-python&quot;&gt;&lt;span class=&quot;z-punctuation z-definition z-string z-end z-python&quot;&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;h2 id=&quot;generic-repository-design-pattern&quot;&gt;Generic Repository Design Pattern&lt;a class=&quot;zola-anchor&quot; href=&quot;#generic-repository-design-pattern&quot; aria-label=&quot;Anchor link for: generic-repository-design-pattern&quot;&gt;
+    &lt;svg class=&quot;zola-anchor-link&quot; viewBox=&quot;0 0 16 16&quot; version=&quot;1.1&quot; width=&quot;16&quot; height=&quot;16&quot; aria-hidden=&quot;true&quot;&gt;
+        &lt;path fill-rule=&quot;evenodd&quot;
+            d=&quot;M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z&quot;&gt;
+        &lt;&#x2F;path&gt;
+    &lt;&#x2F;svg&gt;
+&lt;&#x2F;a&gt;
+&lt;&#x2F;h2&gt;
+&lt;p&gt;Repository 設計模式的概念是將資料存取邏輯隱藏在業務程式碼之外。隱藏細節使程式碼更易於閱讀、維護。對於自動化測試框架，它使您甚至可以輕鬆地更改資料存取技術。通過抽象層，程式碼閱讀者不需要知道測試資料來自何處。閱讀者可以專注於測試案例。Repository 應該支援 CRUD，即建立（Create）、讀取（Read）、更新（Update）、刪除（Delete）。這是每個持久性儲存應支援的四個基本功能。&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;python&quot; class=&quot;language-python z-code&quot;&gt;&lt;code class=&quot;language-python&quot; data-lang=&quot;python&quot;&gt;&lt;span class=&quot;z-source z-python&quot;&gt;&lt;span class=&quot;z-meta z-class z-python&quot;&gt;&lt;span class=&quot;z-storage z-type z-class z-python&quot;&gt;&lt;span class=&quot;z-keyword z-declaration z-class z-python&quot;&gt;class&lt;&#x2F;span&gt;&lt;&#x2F;span&gt; &lt;span class=&quot;z-entity z-name z-class z-python&quot;&gt;&lt;span class=&quot;z-meta z-generic-name z-python&quot;&gt;UsersRepository&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-punctuation z-section z-class z-begin z-python&quot;&gt;:&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-python&quot;&gt;&lt;span class=&quot;z-meta z-function z-python&quot;&gt;    &lt;span class=&quot;z-storage z-type z-function z-python&quot;&gt;&lt;span class=&quot;z-keyword z-declaration z-function z-python&quot;&gt;def&lt;&#x2F;span&gt;&lt;&#x2F;span&gt; &lt;span class=&quot;z-entity z-name z-function z-python&quot;&gt;&lt;span class=&quot;z-support z-function z-magic z-python&quot;&gt;__init__&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-function z-parameters z-python&quot;&gt;&lt;span class=&quot;z-punctuation z-section z-parameters z-begin z-python&quot;&gt;(&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-function z-parameters z-python&quot;&gt;&lt;span class=&quot;z-variable z-parameter z-python&quot;&gt;self&lt;&#x2F;span&gt;&lt;span class=&quot;z-punctuation z-section z-parameters z-end z-python&quot;&gt;)&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-function z-python&quot;&gt;&lt;span class=&quot;z-punctuation z-section z-function z-begin z-python&quot;&gt;:&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-python&quot;&gt;        &lt;span class=&quot;z-meta z-qualified-name z-python&quot;&gt;&lt;span class=&quot;z-variable z-language z-python&quot;&gt;self&lt;&#x2F;span&gt;&lt;span class=&quot;z-punctuation z-accessor z-dot z-python&quot;&gt;.&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-generic-name z-python&quot;&gt;users&lt;&#x2F;span&gt;&lt;&#x2F;span&gt; &lt;span class=&quot;z-keyword z-operator z-assignment z-python&quot;&gt;=&lt;&#x2F;span&gt; &lt;span class=&quot;z-meta z-sequence z-list z-empty z-python&quot;&gt;&lt;span class=&quot;z-punctuation z-section z-sequence z-begin z-python&quot;&gt;[&lt;&#x2F;span&gt;&lt;span class=&quot;z-punctuation z-section z-sequence z-end z-python&quot;&gt;]&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-python&quot;&gt;
+&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-python&quot;&gt;&lt;span class=&quot;z-meta z-function z-python&quot;&gt;    &lt;span class=&quot;z-storage z-type z-function z-python&quot;&gt;&lt;span class=&quot;z-keyword z-declaration z-function z-python&quot;&gt;def&lt;&#x2F;span&gt;&lt;&#x2F;span&gt; &lt;span class=&quot;z-entity z-name z-function z-python&quot;&gt;&lt;span class=&quot;z-meta z-generic-name z-python&quot;&gt;add&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-function z-parameters z-python&quot;&gt;&lt;span class=&quot;z-punctuation z-section z-parameters z-begin z-python&quot;&gt;(&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-function z-parameters z-python&quot;&gt;&lt;span class=&quot;z-variable z-parameter z-python&quot;&gt;self&lt;&#x2F;span&gt;&lt;span class=&quot;z-punctuation z-separator z-parameters z-python&quot;&gt;,&lt;&#x2F;span&gt; &lt;span class=&quot;z-variable z-parameter z-python&quot;&gt;user&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-function z-parameters z-annotation z-python&quot;&gt;&lt;span class=&quot;z-punctuation z-separator z-annotation z-parameter z-python&quot;&gt;:&lt;&#x2F;span&gt; &lt;span class=&quot;z-meta z-qualified-name z-python&quot;&gt;&lt;span class=&quot;z-meta z-generic-name z-python&quot;&gt;User&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-function z-parameters z-python&quot;&gt;&lt;span class=&quot;z-punctuation z-section z-parameters z-end z-python&quot;&gt;)&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-function z-python&quot;&gt;&lt;span class=&quot;z-punctuation z-section z-function z-begin z-python&quot;&gt;:&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-python&quot;&gt;        &lt;span class=&quot;z-comment z-block z-documentation z-python&quot;&gt;&lt;span class=&quot;z-punctuation z-definition z-comment z-begin z-python&quot;&gt;&amp;quot;&amp;quot;&amp;quot;&lt;&#x2F;span&gt;新增使用者&lt;span class=&quot;z-punctuation z-definition z-comment z-end z-python&quot;&gt;&amp;quot;&amp;quot;&amp;quot;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-python&quot;&gt;        &lt;span class=&quot;z-meta z-function-call z-python&quot;&gt;&lt;span class=&quot;z-meta z-qualified-name z-python&quot;&gt;&lt;span class=&quot;z-variable z-language z-python&quot;&gt;self&lt;&#x2F;span&gt;&lt;span class=&quot;z-punctuation z-accessor z-dot z-python&quot;&gt;.&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-generic-name z-python&quot;&gt;users&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-qualified-name z-python&quot;&gt;&lt;span class=&quot;z-punctuation z-accessor z-dot z-python&quot;&gt;.&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-qualified-name z-python&quot;&gt;&lt;span class=&quot;z-variable z-function z-python&quot;&gt;&lt;span class=&quot;z-meta z-generic-name z-python&quot;&gt;append&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-function-call z-arguments z-python&quot;&gt;&lt;span class=&quot;z-punctuation z-section z-arguments z-begin z-python&quot;&gt;(&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-qualified-name z-python&quot;&gt;&lt;span class=&quot;z-meta z-generic-name z-python&quot;&gt;user&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-punctuation z-section z-arguments z-end z-python&quot;&gt;)&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-python&quot;&gt;
+&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-python&quot;&gt;&lt;span class=&quot;z-meta z-function z-python&quot;&gt;    &lt;span class=&quot;z-storage z-type z-function z-python&quot;&gt;&lt;span class=&quot;z-keyword z-declaration z-function z-python&quot;&gt;def&lt;&#x2F;span&gt;&lt;&#x2F;span&gt; &lt;span class=&quot;z-entity z-name z-function z-python&quot;&gt;&lt;span class=&quot;z-meta z-generic-name z-python&quot;&gt;get&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-function z-parameters z-python&quot;&gt;&lt;span class=&quot;z-punctuation z-section z-parameters z-begin z-python&quot;&gt;(&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-function z-parameters z-python&quot;&gt;&lt;span class=&quot;z-variable z-parameter z-python&quot;&gt;self&lt;&#x2F;span&gt;&lt;span class=&quot;z-punctuation z-separator z-parameters z-python&quot;&gt;,&lt;&#x2F;span&gt; &lt;span class=&quot;z-variable z-parameter z-python&quot;&gt;email&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-function z-parameters z-annotation z-python&quot;&gt;&lt;span class=&quot;z-punctuation z-separator z-annotation z-parameter z-python&quot;&gt;:&lt;&#x2F;span&gt; &lt;span class=&quot;z-meta z-qualified-name z-python&quot;&gt;&lt;span class=&quot;z-support z-type z-python&quot;&gt;str&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-function z-parameters z-python&quot;&gt;&lt;span class=&quot;z-punctuation z-section z-parameters z-end z-python&quot;&gt;)&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-function z-python&quot;&gt; &lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-function z-annotation z-return z-python&quot;&gt;&lt;span class=&quot;z-punctuation z-separator z-annotation z-return z-python&quot;&gt;-&amp;gt;&lt;&#x2F;span&gt; &lt;span class=&quot;z-meta z-item-access z-python&quot;&gt;&lt;span class=&quot;z-meta z-qualified-name z-python&quot;&gt;&lt;span class=&quot;z-meta z-generic-name z-python&quot;&gt;Union&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-item-access z-python&quot;&gt;&lt;span class=&quot;z-punctuation z-section z-brackets z-begin z-python&quot;&gt;[&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-item-access z-arguments z-python&quot;&gt;&lt;span class=&quot;z-meta z-qualified-name z-python&quot;&gt;&lt;span class=&quot;z-meta z-generic-name z-python&quot;&gt;User&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;, &lt;span class=&quot;z-constant z-language z-python&quot;&gt;None&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-item-access z-python&quot;&gt;&lt;span class=&quot;z-punctuation z-section z-brackets z-end z-python&quot;&gt;]&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-function z-python&quot;&gt;&lt;span class=&quot;z-punctuation z-section z-function z-begin z-python&quot;&gt;:&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-python&quot;&gt;        &lt;span class=&quot;z-comment z-block z-documentation z-python&quot;&gt;&lt;span class=&quot;z-punctuation z-definition z-comment z-begin z-python&quot;&gt;&amp;quot;&amp;quot;&amp;quot;&lt;&#x2F;span&gt;根據 email 取得使用者&lt;span class=&quot;z-punctuation z-definition z-comment z-end z-python&quot;&gt;&amp;quot;&amp;quot;&amp;quot;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-python&quot;&gt;        &lt;span class=&quot;z-meta z-statement z-loop z-for z-python&quot;&gt;&lt;span class=&quot;z-keyword z-control z-loop z-for z-python&quot;&gt;for&lt;&#x2F;span&gt; &lt;span class=&quot;z-meta z-generic-name z-python&quot;&gt;user&lt;&#x2F;span&gt; &lt;span class=&quot;z-keyword z-control z-loop z-for z-in z-python&quot;&gt;in&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-statement z-loop z-for z-python&quot;&gt; &lt;span class=&quot;z-meta z-qualified-name z-python&quot;&gt;&lt;span class=&quot;z-variable z-language z-python&quot;&gt;self&lt;&#x2F;span&gt;&lt;span class=&quot;z-punctuation z-accessor z-dot z-python&quot;&gt;.&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-generic-name z-python&quot;&gt;users&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-statement z-loop z-for z-python&quot;&gt;&lt;span class=&quot;z-punctuation z-section z-block z-loop z-for z-python&quot;&gt;:&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-python&quot;&gt;            &lt;span class=&quot;z-meta z-statement z-conditional z-if z-python&quot;&gt;&lt;span class=&quot;z-keyword z-control z-conditional z-if z-python&quot;&gt;if&lt;&#x2F;span&gt; &lt;span class=&quot;z-meta z-qualified-name z-python&quot;&gt;&lt;span class=&quot;z-meta z-generic-name z-python&quot;&gt;user&lt;&#x2F;span&gt;&lt;span class=&quot;z-punctuation z-accessor z-dot z-python&quot;&gt;.&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-generic-name z-python&quot;&gt;email&lt;&#x2F;span&gt;&lt;&#x2F;span&gt; &lt;span class=&quot;z-keyword z-operator z-comparison z-python&quot;&gt;==&lt;&#x2F;span&gt; &lt;span class=&quot;z-meta z-qualified-name z-python&quot;&gt;&lt;span class=&quot;z-meta z-generic-name z-python&quot;&gt;email&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-punctuation z-section z-block z-conditional z-if z-python&quot;&gt;:&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-python&quot;&gt;                &lt;span class=&quot;z-keyword z-control z-flow z-return z-python&quot;&gt;return&lt;&#x2F;span&gt; &lt;span class=&quot;z-meta z-qualified-name z-python&quot;&gt;&lt;span class=&quot;z-meta z-generic-name z-python&quot;&gt;user&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-python&quot;&gt;        &lt;span class=&quot;z-keyword z-control z-flow z-return z-python&quot;&gt;return&lt;&#x2F;span&gt; &lt;span class=&quot;z-constant z-language z-python&quot;&gt;None&lt;&#x2F;span&gt;
+&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-python&quot;&gt;
+&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-python&quot;&gt;&lt;span class=&quot;z-meta z-function z-python&quot;&gt;    &lt;span class=&quot;z-storage z-type z-function z-python&quot;&gt;&lt;span class=&quot;z-keyword z-declaration z-function z-python&quot;&gt;def&lt;&#x2F;span&gt;&lt;&#x2F;span&gt; &lt;span class=&quot;z-entity z-name z-function z-python&quot;&gt;&lt;span class=&quot;z-meta z-generic-name z-python&quot;&gt;update&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-function z-parameters z-python&quot;&gt;&lt;span class=&quot;z-punctuation z-section z-parameters z-begin z-python&quot;&gt;(&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-function z-parameters z-python&quot;&gt;&lt;span class=&quot;z-variable z-parameter z-python&quot;&gt;self&lt;&#x2F;span&gt;&lt;span class=&quot;z-punctuation z-separator z-parameters z-python&quot;&gt;,&lt;&#x2F;span&gt; &lt;span class=&quot;z-variable z-parameter z-python&quot;&gt;email&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-function z-parameters z-annotation z-python&quot;&gt;&lt;span class=&quot;z-punctuation z-separator z-annotation z-parameter z-python&quot;&gt;:&lt;&#x2F;span&gt; &lt;span class=&quot;z-meta z-qualified-name z-python&quot;&gt;&lt;span class=&quot;z-support z-type z-python&quot;&gt;str&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-function z-parameters z-python&quot;&gt;&lt;span class=&quot;z-punctuation z-separator z-parameters z-python&quot;&gt;,&lt;&#x2F;span&gt; &lt;span class=&quot;z-variable z-parameter z-python&quot;&gt;new_user_data&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-function z-parameters z-annotation z-python&quot;&gt;&lt;span class=&quot;z-punctuation z-separator z-annotation z-parameter z-python&quot;&gt;:&lt;&#x2F;span&gt; &lt;span class=&quot;z-meta z-qualified-name z-python&quot;&gt;&lt;span class=&quot;z-meta z-generic-name z-python&quot;&gt;User&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-function z-parameters z-python&quot;&gt;&lt;span class=&quot;z-punctuation z-section z-parameters z-end z-python&quot;&gt;)&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-function z-python&quot;&gt;&lt;span class=&quot;z-punctuation z-section z-function z-begin z-python&quot;&gt;:&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-python&quot;&gt;        &lt;span class=&quot;z-comment z-block z-documentation z-python&quot;&gt;&lt;span class=&quot;z-punctuation z-definition z-comment z-begin z-python&quot;&gt;&amp;quot;&amp;quot;&amp;quot;&lt;&#x2F;span&gt;根據 email 更新使用者資訊&lt;span class=&quot;z-punctuation z-definition z-comment z-end z-python&quot;&gt;&amp;quot;&amp;quot;&amp;quot;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-python&quot;&gt;        &lt;span class=&quot;z-meta z-statement z-loop z-for z-python&quot;&gt;&lt;span class=&quot;z-keyword z-control z-loop z-for z-python&quot;&gt;for&lt;&#x2F;span&gt; &lt;span class=&quot;z-meta z-generic-name z-python&quot;&gt;index&lt;&#x2F;span&gt;&lt;span class=&quot;z-punctuation z-separator z-target-list z-python&quot;&gt;,&lt;&#x2F;span&gt; &lt;span class=&quot;z-meta z-generic-name z-python&quot;&gt;user&lt;&#x2F;span&gt; &lt;span class=&quot;z-keyword z-control z-loop z-for z-in z-python&quot;&gt;in&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-statement z-loop z-for z-python&quot;&gt; &lt;span class=&quot;z-meta z-function-call z-python&quot;&gt;&lt;span class=&quot;z-meta z-qualified-name z-python&quot;&gt;&lt;span class=&quot;z-variable z-function z-python&quot;&gt;&lt;span class=&quot;z-support z-function z-builtin z-python&quot;&gt;enumerate&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-function-call z-arguments z-python&quot;&gt;&lt;span class=&quot;z-punctuation z-section z-arguments z-begin z-python&quot;&gt;(&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-qualified-name z-python&quot;&gt;&lt;span class=&quot;z-variable z-language z-python&quot;&gt;self&lt;&#x2F;span&gt;&lt;span class=&quot;z-punctuation z-accessor z-dot z-python&quot;&gt;.&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-generic-name z-python&quot;&gt;users&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-punctuation z-section z-arguments z-end z-python&quot;&gt;)&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-statement z-loop z-for z-python&quot;&gt;&lt;span class=&quot;z-punctuation z-section z-block z-loop z-for z-python&quot;&gt;:&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-python&quot;&gt;            &lt;span class=&quot;z-meta z-statement z-conditional z-if z-python&quot;&gt;&lt;span class=&quot;z-keyword z-control z-conditional z-if z-python&quot;&gt;if&lt;&#x2F;span&gt; &lt;span class=&quot;z-meta z-qualified-name z-python&quot;&gt;&lt;span class=&quot;z-meta z-generic-name z-python&quot;&gt;user&lt;&#x2F;span&gt;&lt;span class=&quot;z-punctuation z-accessor z-dot z-python&quot;&gt;.&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-generic-name z-python&quot;&gt;email&lt;&#x2F;span&gt;&lt;&#x2F;span&gt; &lt;span class=&quot;z-keyword z-operator z-comparison z-python&quot;&gt;==&lt;&#x2F;span&gt; &lt;span class=&quot;z-meta z-qualified-name z-python&quot;&gt;&lt;span class=&quot;z-meta z-generic-name z-python&quot;&gt;email&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-punctuation z-section z-block z-conditional z-if z-python&quot;&gt;:&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-python&quot;&gt;                &lt;span class=&quot;z-meta z-item-access z-python&quot;&gt;&lt;span class=&quot;z-meta z-qualified-name z-python&quot;&gt;&lt;span class=&quot;z-variable z-language z-python&quot;&gt;self&lt;&#x2F;span&gt;&lt;span class=&quot;z-punctuation z-accessor z-dot z-python&quot;&gt;.&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-generic-name z-python&quot;&gt;users&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-item-access z-python&quot;&gt;&lt;span class=&quot;z-punctuation z-section z-brackets z-begin z-python&quot;&gt;[&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-item-access z-arguments z-python&quot;&gt;&lt;span class=&quot;z-meta z-qualified-name z-python&quot;&gt;&lt;span class=&quot;z-meta z-generic-name z-python&quot;&gt;index&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-item-access z-python&quot;&gt;&lt;span class=&quot;z-punctuation z-section z-brackets z-end z-python&quot;&gt;]&lt;&#x2F;span&gt;&lt;&#x2F;span&gt; &lt;span class=&quot;z-keyword z-operator z-assignment z-python&quot;&gt;=&lt;&#x2F;span&gt; &lt;span class=&quot;z-meta z-qualified-name z-python&quot;&gt;&lt;span class=&quot;z-meta z-generic-name z-python&quot;&gt;new_user_data&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-python&quot;&gt;                &lt;span class=&quot;z-keyword z-control z-flow z-return z-python&quot;&gt;return&lt;&#x2F;span&gt; &lt;span class=&quot;z-constant z-language z-python&quot;&gt;True&lt;&#x2F;span&gt;
+&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-python&quot;&gt;        &lt;span class=&quot;z-keyword z-control z-flow z-return z-python&quot;&gt;return&lt;&#x2F;span&gt; &lt;span class=&quot;z-constant z-language z-python&quot;&gt;False&lt;&#x2F;span&gt;
+&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-python&quot;&gt;
+&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-python&quot;&gt;&lt;span class=&quot;z-meta z-function z-python&quot;&gt;    &lt;span class=&quot;z-storage z-type z-function z-python&quot;&gt;&lt;span class=&quot;z-keyword z-declaration z-function z-python&quot;&gt;def&lt;&#x2F;span&gt;&lt;&#x2F;span&gt; &lt;span class=&quot;z-entity z-name z-function z-python&quot;&gt;&lt;span class=&quot;z-meta z-generic-name z-python&quot;&gt;delete&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-function z-parameters z-python&quot;&gt;&lt;span class=&quot;z-punctuation z-section z-parameters z-begin z-python&quot;&gt;(&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-function z-parameters z-python&quot;&gt;&lt;span class=&quot;z-variable z-parameter z-python&quot;&gt;self&lt;&#x2F;span&gt;&lt;span class=&quot;z-punctuation z-separator z-parameters z-python&quot;&gt;,&lt;&#x2F;span&gt; &lt;span class=&quot;z-variable z-parameter z-python&quot;&gt;email&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-function z-parameters z-annotation z-python&quot;&gt;&lt;span class=&quot;z-punctuation z-separator z-annotation z-parameter z-python&quot;&gt;:&lt;&#x2F;span&gt; &lt;span class=&quot;z-meta z-qualified-name z-python&quot;&gt;&lt;span class=&quot;z-support z-type z-python&quot;&gt;str&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-function z-parameters z-python&quot;&gt;&lt;span class=&quot;z-punctuation z-section z-parameters z-end z-python&quot;&gt;)&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-function z-python&quot;&gt;&lt;span class=&quot;z-punctuation z-section z-function z-begin z-python&quot;&gt;:&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-python&quot;&gt;        &lt;span class=&quot;z-comment z-block z-documentation z-python&quot;&gt;&lt;span class=&quot;z-punctuation z-definition z-comment z-begin z-python&quot;&gt;&amp;quot;&amp;quot;&amp;quot;&lt;&#x2F;span&gt;根據 email 刪除使用者&lt;span class=&quot;z-punctuation z-definition z-comment z-end z-python&quot;&gt;&amp;quot;&amp;quot;&amp;quot;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-python&quot;&gt;        &lt;span class=&quot;z-meta z-statement z-loop z-for z-python&quot;&gt;&lt;span class=&quot;z-keyword z-control z-loop z-for z-python&quot;&gt;for&lt;&#x2F;span&gt; &lt;span class=&quot;z-meta z-generic-name z-python&quot;&gt;index&lt;&#x2F;span&gt;&lt;span class=&quot;z-punctuation z-separator z-target-list z-python&quot;&gt;,&lt;&#x2F;span&gt; &lt;span class=&quot;z-meta z-generic-name z-python&quot;&gt;user&lt;&#x2F;span&gt; &lt;span class=&quot;z-keyword z-control z-loop z-for z-in z-python&quot;&gt;in&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-statement z-loop z-for z-python&quot;&gt; &lt;span class=&quot;z-meta z-function-call z-python&quot;&gt;&lt;span class=&quot;z-meta z-qualified-name z-python&quot;&gt;&lt;span class=&quot;z-variable z-function z-python&quot;&gt;&lt;span class=&quot;z-support z-function z-builtin z-python&quot;&gt;enumerate&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-function-call z-arguments z-python&quot;&gt;&lt;span class=&quot;z-punctuation z-section z-arguments z-begin z-python&quot;&gt;(&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-qualified-name z-python&quot;&gt;&lt;span class=&quot;z-variable z-language z-python&quot;&gt;self&lt;&#x2F;span&gt;&lt;span class=&quot;z-punctuation z-accessor z-dot z-python&quot;&gt;.&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-generic-name z-python&quot;&gt;users&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-punctuation z-section z-arguments z-end z-python&quot;&gt;)&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-statement z-loop z-for z-python&quot;&gt;&lt;span class=&quot;z-punctuation z-section z-block z-loop z-for z-python&quot;&gt;:&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-python&quot;&gt;            &lt;span class=&quot;z-meta z-statement z-conditional z-if z-python&quot;&gt;&lt;span class=&quot;z-keyword z-control z-conditional z-if z-python&quot;&gt;if&lt;&#x2F;span&gt; &lt;span class=&quot;z-meta z-qualified-name z-python&quot;&gt;&lt;span class=&quot;z-meta z-generic-name z-python&quot;&gt;user&lt;&#x2F;span&gt;&lt;span class=&quot;z-punctuation z-accessor z-dot z-python&quot;&gt;.&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-generic-name z-python&quot;&gt;email&lt;&#x2F;span&gt;&lt;&#x2F;span&gt; &lt;span class=&quot;z-keyword z-operator z-comparison z-python&quot;&gt;==&lt;&#x2F;span&gt; &lt;span class=&quot;z-meta z-qualified-name z-python&quot;&gt;&lt;span class=&quot;z-meta z-generic-name z-python&quot;&gt;email&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-punctuation z-section z-block z-conditional z-if z-python&quot;&gt;:&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-python&quot;&gt;                &lt;span class=&quot;z-keyword z-other z-del z-python&quot;&gt;del&lt;&#x2F;span&gt; &lt;span class=&quot;z-meta z-item-access z-python&quot;&gt;&lt;span class=&quot;z-meta z-qualified-name z-python&quot;&gt;&lt;span class=&quot;z-variable z-language z-python&quot;&gt;self&lt;&#x2F;span&gt;&lt;span class=&quot;z-punctuation z-accessor z-dot z-python&quot;&gt;.&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-generic-name z-python&quot;&gt;users&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-item-access z-python&quot;&gt;&lt;span class=&quot;z-punctuation z-section z-brackets z-begin z-python&quot;&gt;[&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-item-access z-arguments z-python&quot;&gt;&lt;span class=&quot;z-meta z-qualified-name z-python&quot;&gt;&lt;span class=&quot;z-meta z-generic-name z-python&quot;&gt;index&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-item-access z-python&quot;&gt;&lt;span class=&quot;z-punctuation z-section z-brackets z-end z-python&quot;&gt;]&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-python&quot;&gt;                &lt;span class=&quot;z-keyword z-control z-flow z-return z-python&quot;&gt;return&lt;&#x2F;span&gt; &lt;span class=&quot;z-constant z-language z-python&quot;&gt;True&lt;&#x2F;span&gt;
+&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-python&quot;&gt;        &lt;span class=&quot;z-keyword z-control z-flow z-return z-python&quot;&gt;return&lt;&#x2F;span&gt; &lt;span class=&quot;z-constant z-language z-python&quot;&gt;False&lt;&#x2F;span&gt;
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;該類別創建一個列表來儲存使用者資料。它提供 CRUD 操作，將幫助我們將一批測試使用者建立到記憶體中。&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;userfactory&quot;&gt;UserFactory&lt;a class=&quot;zola-anchor&quot; href=&quot;#userfactory&quot; aria-label=&quot;Anchor link for: userfactory&quot;&gt;
+    &lt;svg class=&quot;zola-anchor-link&quot; viewBox=&quot;0 0 16 16&quot; version=&quot;1.1&quot; width=&quot;16&quot; height=&quot;16&quot; aria-hidden=&quot;true&quot;&gt;
+        &lt;path fill-rule=&quot;evenodd&quot;
+            d=&quot;M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z&quot;&gt;
+        &lt;&#x2F;path&gt;
+    &lt;&#x2F;svg&gt;
+&lt;&#x2F;a&gt;
+&lt;&#x2F;h2&gt;
+&lt;pre data-lang=&quot;python&quot; class=&quot;language-python z-code&quot;&gt;&lt;code class=&quot;language-python&quot; data-lang=&quot;python&quot;&gt;&lt;span class=&quot;z-source z-python&quot;&gt;&lt;span class=&quot;z-meta z-class z-python&quot;&gt;&lt;span class=&quot;z-storage z-type z-class z-python&quot;&gt;&lt;span class=&quot;z-keyword z-declaration z-class z-python&quot;&gt;class&lt;&#x2F;span&gt;&lt;&#x2F;span&gt; &lt;span class=&quot;z-entity z-name z-class z-python&quot;&gt;&lt;span class=&quot;z-meta z-generic-name z-python&quot;&gt;UserFactory&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-punctuation z-section z-class z-begin z-python&quot;&gt;:&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-python&quot;&gt;&lt;span class=&quot;z-meta z-function z-python&quot;&gt;  &lt;span class=&quot;z-storage z-type z-function z-python&quot;&gt;&lt;span class=&quot;z-keyword z-declaration z-function z-python&quot;&gt;def&lt;&#x2F;span&gt;&lt;&#x2F;span&gt; &lt;span class=&quot;z-entity z-name z-function z-python&quot;&gt;&lt;span class=&quot;z-support z-function z-magic z-python&quot;&gt;__init__&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-function z-parameters z-python&quot;&gt;&lt;span class=&quot;z-punctuation z-section z-parameters z-begin z-python&quot;&gt;(&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-function z-parameters z-python&quot;&gt;&lt;span class=&quot;z-variable z-parameter z-python&quot;&gt;self&lt;&#x2F;span&gt;&lt;span class=&quot;z-punctuation z-separator z-parameters z-python&quot;&gt;,&lt;&#x2F;span&gt; &lt;span class=&quot;z-variable z-parameter z-python&quot;&gt;repo&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-function z-parameters z-annotation z-python&quot;&gt;&lt;span class=&quot;z-punctuation z-separator z-annotation z-parameter z-python&quot;&gt;:&lt;&#x2F;span&gt; &lt;span class=&quot;z-meta z-qualified-name z-python&quot;&gt;&lt;span class=&quot;z-meta z-generic-name z-python&quot;&gt;UsersRepository&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-function z-parameters z-python&quot;&gt;&lt;span class=&quot;z-punctuation z-section z-parameters z-end z-python&quot;&gt;)&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-function z-python&quot;&gt;&lt;span class=&quot;z-punctuation z-section z-function z-begin z-python&quot;&gt;:&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-python&quot;&gt;    &lt;span class=&quot;z-meta z-qualified-name z-python&quot;&gt;&lt;span class=&quot;z-variable z-language z-python&quot;&gt;self&lt;&#x2F;span&gt;&lt;span class=&quot;z-punctuation z-accessor z-dot z-python&quot;&gt;.&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-generic-name z-python&quot;&gt;repository&lt;&#x2F;span&gt;&lt;&#x2F;span&gt; &lt;span class=&quot;z-keyword z-operator z-assignment z-python&quot;&gt;=&lt;&#x2F;span&gt; &lt;span class=&quot;z-meta z-qualified-name z-python&quot;&gt;&lt;span class=&quot;z-meta z-generic-name z-python&quot;&gt;repo&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-python&quot;&gt;  
+&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-python&quot;&gt;&lt;span class=&quot;z-meta z-function z-python&quot;&gt;  &lt;span class=&quot;z-storage z-type z-function z-python&quot;&gt;&lt;span class=&quot;z-keyword z-declaration z-function z-python&quot;&gt;def&lt;&#x2F;span&gt;&lt;&#x2F;span&gt; &lt;span class=&quot;z-entity z-name z-function z-python&quot;&gt;&lt;span class=&quot;z-meta z-generic-name z-python&quot;&gt;generate_users&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-function z-parameters z-python&quot;&gt;&lt;span class=&quot;z-punctuation z-section z-parameters z-begin z-python&quot;&gt;(&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-function z-parameters z-python&quot;&gt;&lt;span class=&quot;z-variable z-parameter z-python&quot;&gt;self&lt;&#x2F;span&gt;&lt;span class=&quot;z-punctuation z-separator z-parameters z-python&quot;&gt;,&lt;&#x2F;span&gt; &lt;span class=&quot;z-variable z-parameter z-python&quot;&gt;count&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-function z-parameters z-annotation z-python&quot;&gt;&lt;span class=&quot;z-punctuation z-separator z-annotation z-parameter z-python&quot;&gt;:&lt;&#x2F;span&gt; &lt;span class=&quot;z-meta z-qualified-name z-python&quot;&gt;&lt;span class=&quot;z-support z-type z-python&quot;&gt;int&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-function z-parameters z-python&quot;&gt;&lt;span class=&quot;z-punctuation z-section z-parameters z-end z-python&quot;&gt;)&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-function z-python&quot;&gt; &lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-function z-annotation z-return z-python&quot;&gt;&lt;span class=&quot;z-punctuation z-separator z-annotation z-return z-python&quot;&gt;-&amp;gt;&lt;&#x2F;span&gt; &lt;span class=&quot;z-meta z-item-access z-python&quot;&gt;&lt;span class=&quot;z-meta z-qualified-name z-python&quot;&gt;&lt;span class=&quot;z-meta z-generic-name z-python&quot;&gt;List&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-item-access z-python&quot;&gt;&lt;span class=&quot;z-punctuation z-section z-brackets z-begin z-python&quot;&gt;[&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-item-access z-arguments z-python&quot;&gt;&lt;span class=&quot;z-meta z-qualified-name z-python&quot;&gt;&lt;span class=&quot;z-meta z-generic-name z-python&quot;&gt;User&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-item-access z-python&quot;&gt;&lt;span class=&quot;z-punctuation z-section z-brackets z-end z-python&quot;&gt;]&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-function z-python&quot;&gt;&lt;span class=&quot;z-punctuation z-section z-function z-begin z-python&quot;&gt;:&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-python&quot;&gt;    &lt;span class=&quot;z-meta z-qualified-name z-python&quot;&gt;&lt;span class=&quot;z-meta z-generic-name z-python&quot;&gt;active_users&lt;&#x2F;span&gt;&lt;&#x2F;span&gt; &lt;span class=&quot;z-keyword z-operator z-assignment z-python&quot;&gt;=&lt;&#x2F;span&gt; &lt;span class=&quot;z-meta z-function-call z-python&quot;&gt;&lt;span class=&quot;z-meta z-qualified-name z-python&quot;&gt;&lt;span class=&quot;z-variable z-language z-python&quot;&gt;self&lt;&#x2F;span&gt;&lt;span class=&quot;z-punctuation z-accessor z-dot z-python&quot;&gt;.&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-generic-name z-python&quot;&gt;repository&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-qualified-name z-python&quot;&gt;&lt;span class=&quot;z-punctuation z-accessor z-dot z-python&quot;&gt;.&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-qualified-name z-python&quot;&gt;&lt;span class=&quot;z-variable z-function z-python&quot;&gt;&lt;span class=&quot;z-meta z-generic-name z-python&quot;&gt;all_users&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-function-call z-arguments z-python&quot;&gt;&lt;span class=&quot;z-punctuation z-section z-arguments z-begin z-python&quot;&gt;(&lt;&#x2F;span&gt;&lt;span class=&quot;z-punctuation z-section z-arguments z-end z-python&quot;&gt;)&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;h2 id=&quot;userfactory-usage&quot;&gt;UserFactory Usage&lt;a class=&quot;zola-anchor&quot; href=&quot;#userfactory-usage&quot; aria-label=&quot;Anchor link for: userfactory-usage&quot;&gt;
+    &lt;svg class=&quot;zola-anchor-link&quot; viewBox=&quot;0 0 16 16&quot; version=&quot;1.1&quot; width=&quot;16&quot; height=&quot;16&quot; aria-hidden=&quot;true&quot;&gt;
+        &lt;path fill-rule=&quot;evenodd&quot;
+            d=&quot;M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z&quot;&gt;
+        &lt;&#x2F;path&gt;
+    &lt;&#x2F;svg&gt;
+&lt;&#x2F;a&gt;
+&lt;&#x2F;h2&gt;
+&lt;pre data-lang=&quot;python&quot; class=&quot;language-python z-code&quot;&gt;&lt;code class=&quot;language-python&quot; data-lang=&quot;python&quot;&gt;&lt;span class=&quot;z-source z-python&quot;&gt;&lt;span class=&quot;z-meta z-qualified-name z-python&quot;&gt;&lt;span class=&quot;z-meta z-generic-name z-python&quot;&gt;user_factory&lt;&#x2F;span&gt;&lt;&#x2F;span&gt; &lt;span class=&quot;z-keyword z-operator z-assignment z-python&quot;&gt;=&lt;&#x2F;span&gt; &lt;span class=&quot;z-meta z-function-call z-python&quot;&gt;&lt;span class=&quot;z-meta z-qualified-name z-python&quot;&gt;&lt;span class=&quot;z-variable z-function z-python&quot;&gt;&lt;span class=&quot;z-meta z-generic-name z-python&quot;&gt;UserFactory&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-function-call z-arguments z-python&quot;&gt;&lt;span class=&quot;z-punctuation z-section z-arguments z-begin z-python&quot;&gt;(&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-function-call z-python&quot;&gt;&lt;span class=&quot;z-meta z-qualified-name z-python&quot;&gt;&lt;span class=&quot;z-variable z-function z-python&quot;&gt;&lt;span class=&quot;z-meta z-generic-name z-python&quot;&gt;UsersRepository&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-function-call z-arguments z-python&quot;&gt;&lt;span class=&quot;z-punctuation z-section z-arguments z-begin z-python&quot;&gt;(&lt;&#x2F;span&gt;&lt;span class=&quot;z-punctuation z-section z-arguments z-end z-python&quot;&gt;)&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-punctuation z-section z-arguments z-end z-python&quot;&gt;)&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-python&quot;&gt;&lt;span class=&quot;z-meta z-function-call z-python&quot;&gt;&lt;span class=&quot;z-meta z-qualified-name z-python&quot;&gt;&lt;span class=&quot;z-meta z-generic-name z-python&quot;&gt;user_factory&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-qualified-name z-python&quot;&gt;&lt;span class=&quot;z-punctuation z-accessor z-dot z-python&quot;&gt;.&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-qualified-name z-python&quot;&gt;&lt;span class=&quot;z-variable z-function z-python&quot;&gt;&lt;span class=&quot;z-meta z-generic-name z-python&quot;&gt;generate_users&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-function-call z-arguments z-python&quot;&gt;&lt;span class=&quot;z-punctuation z-section z-arguments z-begin z-python&quot;&gt;(&lt;&#x2F;span&gt;&lt;span class=&quot;z-variable z-parameter z-python&quot;&gt;count&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator z-assignment z-python&quot;&gt;=&lt;&#x2F;span&gt;&lt;span class=&quot;z-constant z-numeric z-integer z-decimal z-python&quot;&gt;5000&lt;&#x2F;span&gt;&lt;span class=&quot;z-punctuation z-section z-arguments z-end z-python&quot;&gt;)&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;h2 id=&quot;zhai-yao&quot;&gt;摘要&lt;a class=&quot;zola-anchor&quot; href=&quot;#zhai-yao&quot; aria-label=&quot;Anchor link for: zhai-yao&quot;&gt;
+    &lt;svg class=&quot;zola-anchor-link&quot; viewBox=&quot;0 0 16 16&quot; version=&quot;1.1&quot; width=&quot;16&quot; height=&quot;16&quot; aria-hidden=&quot;true&quot;&gt;
+        &lt;path fill-rule=&quot;evenodd&quot;
+            d=&quot;M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z&quot;&gt;
+        &lt;&#x2F;path&gt;
+    &lt;&#x2F;svg&gt;
+&lt;&#x2F;a&gt;
+&lt;&#x2F;h2&gt;
+&lt;p&gt;通過 Repository 設計模式，我們可以輕鬆地準備測試資料，使測試過程更有效率和穩定。&lt;&#x2F;p&gt;
+</content>
+        
+    </entry>
+    <entry xml:lang="en">
+        <title>2024 New Year!</title>
+        <published>2024-01-01T00:00:00+00:00</published>
+        <updated>2024-01-01T00:00:00+00:00</updated>
+        
+        <author>
+          <name>
+            
+              Unknown
+            
+          </name>
+        </author>
+        
+        <link rel="alternate" type="text/html" href="https://wclee.me/blog/2024-01-01/"/>
+        <id>https://wclee.me/blog/2024-01-01/</id>
+        
+        <content type="html" xml:base="https://wclee.me/blog/2024-01-01/">&lt;p&gt;今年的目標與期許：&lt;&#x2F;p&gt;
+&lt;ol&gt;
+&lt;li&gt;增加影響力&lt;&#x2F;li&gt;
+&lt;li&gt;持續的刻意練習&lt;&#x2F;li&gt;
+&lt;li&gt;增加被動收入&lt;&#x2F;li&gt;
+&lt;&#x2F;ol&gt;
+&lt;h3 id=&quot;zeng-jia-ying-xiang-li&quot;&gt;增加影響力&lt;a class=&quot;zola-anchor&quot; href=&quot;#zeng-jia-ying-xiang-li&quot; aria-label=&quot;Anchor link for: zeng-jia-ying-xiang-li&quot;&gt;
+    &lt;svg class=&quot;zola-anchor-link&quot; viewBox=&quot;0 0 16 16&quot; version=&quot;1.1&quot; width=&quot;16&quot; height=&quot;16&quot; aria-hidden=&quot;true&quot;&gt;
+        &lt;path fill-rule=&quot;evenodd&quot;
+            d=&quot;M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z&quot;&gt;
+        &lt;&#x2F;path&gt;
+    &lt;&#x2F;svg&gt;
+&lt;&#x2F;a&gt;
+&lt;&#x2F;h3&gt;
+&lt;p&gt;隨著工作經驗的累計，想趁著空閒的時候，整理平日遇到的問題或者針對有興趣的主題研究，希望能夠累積些心得和成果後，分享給其他有興趣的人知道。目前是想要藉由免費和付費訂閱電子報，找尋到相同興趣的夥伴，雖然預期是長期的計畫，但今年應該會開始啟動。&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;ke-yi-lian-xi&quot;&gt;刻意練習&lt;a class=&quot;zola-anchor&quot; href=&quot;#ke-yi-lian-xi&quot; aria-label=&quot;Anchor link for: ke-yi-lian-xi&quot;&gt;
+    &lt;svg class=&quot;zola-anchor-link&quot; viewBox=&quot;0 0 16 16&quot; version=&quot;1.1&quot; width=&quot;16&quot; height=&quot;16&quot; aria-hidden=&quot;true&quot;&gt;
+        &lt;path fill-rule=&quot;evenodd&quot;
+            d=&quot;M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z&quot;&gt;
+        &lt;&#x2F;path&gt;
+    &lt;&#x2F;svg&gt;
+&lt;&#x2F;a&gt;
+&lt;&#x2F;h3&gt;
+&lt;p&gt;某些工作常見的技能，會透過刻意練習和學習，加速撰寫程式碼或是思考如何更簡化流程，讓工作效率可以變快。&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;zeng-jia-bei-dong-shou-ru&quot;&gt;增加被動收入&lt;a class=&quot;zola-anchor&quot; href=&quot;#zeng-jia-bei-dong-shou-ru&quot; aria-label=&quot;Anchor link for: zeng-jia-bei-dong-shou-ru&quot;&gt;
+    &lt;svg class=&quot;zola-anchor-link&quot; viewBox=&quot;0 0 16 16&quot; version=&quot;1.1&quot; width=&quot;16&quot; height=&quot;16&quot; aria-hidden=&quot;true&quot;&gt;
+        &lt;path fill-rule=&quot;evenodd&quot;
+            d=&quot;M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z&quot;&gt;
+        &lt;&#x2F;path&gt;
+    &lt;&#x2F;svg&gt;
+&lt;&#x2F;a&gt;
+&lt;&#x2F;h3&gt;
+&lt;p&gt;除了上面兩者，希望能夠透過不斷的學習與分享，找到一些被動收入的想法，希望長期經營下去。&lt;&#x2F;p&gt;
+&lt;p&gt;此外，Happy New Year !&lt;&#x2F;p&gt;
+</content>
+        
+    </entry>
+    <entry xml:lang="en">
+        <title>2024 New Year!</title>
+        <published>2024-01-01T00:00:00+00:00</published>
+        <updated>2024-01-01T00:00:00+00:00</updated>
+        
+        <author>
+          <name>
+            
+              Unknown
+            
+          </name>
+        </author>
+        
+        <link rel="alternate" type="text/html" href="https://wclee.me/memos/2024/"/>
+        <id>https://wclee.me/memos/2024/</id>
+        
+        <content type="html" xml:base="https://wclee.me/memos/2024/"></content>
+        
+    </entry>
+    <entry xml:lang="en">
+        <title>CKA&#x2F;CKAD 2023 考試心得</title>
+        <published>2023-01-03T00:00:00+00:00</published>
+        <updated>2023-01-03T00:00:00+00:00</updated>
+        
+        <author>
+          <name>
+            
+              Unknown
+            
+          </name>
+        </author>
+        
+        <link rel="alternate" type="text/html" href="https://wclee.me/blog/2023-01-04/"/>
+        <id>https://wclee.me/blog/2023-01-04/</id>
+        
+        <content type="html" xml:base="https://wclee.me/blog/2023-01-04/">&lt;h2 id=&quot;qian-yan&quot;&gt;前言&lt;a class=&quot;zola-anchor&quot; href=&quot;#qian-yan&quot; aria-label=&quot;Anchor link for: qian-yan&quot;&gt;
+    &lt;svg class=&quot;zola-anchor-link&quot; viewBox=&quot;0 0 16 16&quot; version=&quot;1.1&quot; width=&quot;16&quot; height=&quot;16&quot; aria-hidden=&quot;true&quot;&gt;
+        &lt;path fill-rule=&quot;evenodd&quot;
+            d=&quot;M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z&quot;&gt;
+        &lt;&#x2F;path&gt;
+    &lt;&#x2F;svg&gt;
+&lt;&#x2F;a&gt;
+&lt;&#x2F;h2&gt;
+&lt;p&gt;我們團隊一直都有在用託管的 kubernetes 服務，像是 Amazon EKS、Azure AKS 部屬應用程式或是服務，對於 kubernetes 的基本基礎和元件都不是很熟悉，想透過學習的方式，有個全面性的概念與知識。&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;kao-shi-jie-shao&quot;&gt;考試介紹&lt;a class=&quot;zola-anchor&quot; href=&quot;#kao-shi-jie-shao&quot; aria-label=&quot;Anchor link for: kao-shi-jie-shao&quot;&gt;
+    &lt;svg class=&quot;zola-anchor-link&quot; viewBox=&quot;0 0 16 16&quot; version=&quot;1.1&quot; width=&quot;16&quot; height=&quot;16&quot; aria-hidden=&quot;true&quot;&gt;
+        &lt;path fill-rule=&quot;evenodd&quot;
+            d=&quot;M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z&quot;&gt;
+        &lt;&#x2F;path&gt;
+    &lt;&#x2F;svg&gt;
+&lt;&#x2F;a&gt;
+&lt;&#x2F;h2&gt;
+&lt;p&gt;The Linux Foundation 推出的 Kubernetes 證照，目前共有四張，分別是&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;Certified Kubernetes and Cloud Native Associate (KCNA)&lt;&#x2F;li&gt;
+&lt;li&gt;Certified Kubernetes Application Developer (CKAD)&lt;&#x2F;li&gt;
+&lt;li&gt;Certified Kubernetes Administrator (CKA)&lt;&#x2F;li&gt;
+&lt;li&gt;Certified Kubernetes Security Specialist (CKS)&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;h2 id=&quot;gou-mai-kao-shi&quot;&gt;購買考試&lt;a class=&quot;zola-anchor&quot; href=&quot;#gou-mai-kao-shi&quot; aria-label=&quot;Anchor link for: gou-mai-kao-shi&quot;&gt;
+    &lt;svg class=&quot;zola-anchor-link&quot; viewBox=&quot;0 0 16 16&quot; version=&quot;1.1&quot; width=&quot;16&quot; height=&quot;16&quot; aria-hidden=&quot;true&quot;&gt;
+        &lt;path fill-rule=&quot;evenodd&quot;
+            d=&quot;M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z&quot;&gt;
+        &lt;&#x2F;path&gt;
+    &lt;&#x2F;svg&gt;
+&lt;&#x2F;a&gt;
+&lt;&#x2F;h2&gt;
+&lt;p&gt;我是在 2021 的黑色星期五，用 35% 的折扣碼，購買原價 375 美金，實際價格是 243.75 美金，2022 年價格原價 395 美金，購買後一年期限內，都可以從系統上預約考試。&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;cka-kao-shi-fan-wei&quot;&gt;CKA 考試範圍&lt;a class=&quot;zola-anchor&quot; href=&quot;#cka-kao-shi-fan-wei&quot; aria-label=&quot;Anchor link for: cka-kao-shi-fan-wei&quot;&gt;
+    &lt;svg class=&quot;zola-anchor-link&quot; viewBox=&quot;0 0 16 16&quot; version=&quot;1.1&quot; width=&quot;16&quot; height=&quot;16&quot; aria-hidden=&quot;true&quot;&gt;
+        &lt;path fill-rule=&quot;evenodd&quot;
+            d=&quot;M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z&quot;&gt;
+        &lt;&#x2F;path&gt;
+    &lt;&#x2F;svg&gt;
+&lt;&#x2F;a&gt;
+&lt;&#x2F;h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Cluster Architecture, Installation &amp;amp; Configuration - 25%&lt;&#x2F;li&gt;
+&lt;li&gt;Workloads &amp;amp; Scheduling - 15%&lt;&#x2F;li&gt;
+&lt;li&gt;Services &amp;amp; Networking - 20%&lt;&#x2F;li&gt;
+&lt;li&gt;Storage - 10%&lt;&#x2F;li&gt;
+&lt;li&gt;Troubleshooting - 30%&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;h2 id=&quot;ckad-kao-shi-fan-wei&quot;&gt;CKAD 考試範圍&lt;a class=&quot;zola-anchor&quot; href=&quot;#ckad-kao-shi-fan-wei&quot; aria-label=&quot;Anchor link for: ckad-kao-shi-fan-wei&quot;&gt;
+    &lt;svg class=&quot;zola-anchor-link&quot; viewBox=&quot;0 0 16 16&quot; version=&quot;1.1&quot; width=&quot;16&quot; height=&quot;16&quot; aria-hidden=&quot;true&quot;&gt;
+        &lt;path fill-rule=&quot;evenodd&quot;
+            d=&quot;M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z&quot;&gt;
+        &lt;&#x2F;path&gt;
+    &lt;&#x2F;svg&gt;
+&lt;&#x2F;a&gt;
+&lt;&#x2F;h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Application Design and Build - 20%&lt;&#x2F;li&gt;
+&lt;li&gt;Application Deployment - 20%&lt;&#x2F;li&gt;
+&lt;li&gt;Application Environment, Configuration, and Security-25%&lt;&#x2F;li&gt;
+&lt;li&gt;Services and Networking - 20%&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;雖然考前網路上的文章都說兩邊的內容重複，但實際考下來，CKA 比較偏向維運的範圍，而 CKAD 則是偏向開發佈署的範圍。像是 CKA 就會考到 Node 的更新，而 CKAD 則是會考到佈署流程或是如何分散佈署時的更新。&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;xue-xi-zi-yuan&quot;&gt;學習資源&lt;a class=&quot;zola-anchor&quot; href=&quot;#xue-xi-zi-yuan&quot; aria-label=&quot;Anchor link for: xue-xi-zi-yuan&quot;&gt;
+    &lt;svg class=&quot;zola-anchor-link&quot; viewBox=&quot;0 0 16 16&quot; version=&quot;1.1&quot; width=&quot;16&quot; height=&quot;16&quot; aria-hidden=&quot;true&quot;&gt;
+        &lt;path fill-rule=&quot;evenodd&quot;
+            d=&quot;M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z&quot;&gt;
+        &lt;&#x2F;path&gt;
+    &lt;&#x2F;svg&gt;
+&lt;&#x2F;a&gt;
+&lt;&#x2F;h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https:&#x2F;&#x2F;www.udemy.com&#x2F;course&#x2F;certified-kubernetes-administrator-with-practice-tests&#x2F;&quot;&gt;Certified Kubernetes Administrator (CKA) with Practice Tests&lt;&#x2F;a&gt;&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;a href=&quot;https:&#x2F;&#x2F;www.udemy.com&#x2F;course&#x2F;certified-kubernetes-application-developer&#x2F;&quot;&gt;Kubernetes Certified Application Developer (CKAD) with Tests&lt;&#x2F;a&gt;&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;a href=&quot;https:&#x2F;&#x2F;killer.sh&#x2F;&quot;&gt;killer.sh&lt;&#x2F;a&gt; (模擬考題): 記得從 The Linux Foundation 的入口進去，才會得到兩次免費模擬考的機會。&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;h4 id=&quot;mo-ni-kao-ti&quot;&gt;模擬考題&lt;a class=&quot;zola-anchor&quot; href=&quot;#mo-ni-kao-ti&quot; aria-label=&quot;Anchor link for: mo-ni-kao-ti&quot;&gt;
+    &lt;svg class=&quot;zola-anchor-link&quot; viewBox=&quot;0 0 16 16&quot; version=&quot;1.1&quot; width=&quot;16&quot; height=&quot;16&quot; aria-hidden=&quot;true&quot;&gt;
+        &lt;path fill-rule=&quot;evenodd&quot;
+            d=&quot;M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z&quot;&gt;
+        &lt;&#x2F;path&gt;
+    &lt;&#x2F;svg&gt;
+&lt;&#x2F;a&gt;
+&lt;&#x2F;h4&gt;
+&lt;p&gt;記得從 Linux Foundation 報名，會有兩次模擬考的機會，總共會有 preview questions、mock questions、Extra questions 大概有 25-26 題左右。&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;kao-shi-huan-jing&quot;&gt;考試環境&lt;a class=&quot;zola-anchor&quot; href=&quot;#kao-shi-huan-jing&quot; aria-label=&quot;Anchor link for: kao-shi-huan-jing&quot;&gt;
+    &lt;svg class=&quot;zola-anchor-link&quot; viewBox=&quot;0 0 16 16&quot; version=&quot;1.1&quot; width=&quot;16&quot; height=&quot;16&quot; aria-hidden=&quot;true&quot;&gt;
+        &lt;path fill-rule=&quot;evenodd&quot;
+            d=&quot;M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z&quot;&gt;
+        &lt;&#x2F;path&gt;
+    &lt;&#x2F;svg&gt;
+&lt;&#x2F;a&gt;
+&lt;&#x2F;h2&gt;
+&lt;ul&gt;
+&lt;li&gt;視訊用攝影機: 用筆電的攝影鏡頭就可以了，但就是要一直調整角度給監考官，如果看不清楚的話，考官也會叫你重新照給他看。&lt;&#x2F;li&gt;
+&lt;li&gt;CCTV(監視器): 因為家裡沒有一個整齊且安靜的空間，這幾次考試都是租借&lt;a href=&quot;https:&#x2F;&#x2F;thehapp.com&#x2F;&quot;&gt;小樹屋&lt;&#x2F;a&gt;，所以房間內都有監視器，這部份監考官會希望你換一間考試的房間或是面向攝影機考試。如果有一個獨立的空間或是利用公司的會議室是最好的選擇。 &lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;h2 id=&quot;kao-shi-qian&quot;&gt;考試前&lt;a class=&quot;zola-anchor&quot; href=&quot;#kao-shi-qian&quot; aria-label=&quot;Anchor link for: kao-shi-qian&quot;&gt;
+    &lt;svg class=&quot;zola-anchor-link&quot; viewBox=&quot;0 0 16 16&quot; version=&quot;1.1&quot; width=&quot;16&quot; height=&quot;16&quot; aria-hidden=&quot;true&quot;&gt;
+        &lt;path fill-rule=&quot;evenodd&quot;
+            d=&quot;M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z&quot;&gt;
+        &lt;&#x2F;path&gt;
+    &lt;&#x2F;svg&gt;
+&lt;&#x2F;a&gt;
+&lt;&#x2F;h2&gt;
+&lt;p&gt;第一次考試的時候，監考官認為護照的名字和系統的名字不一樣，本來是打算不讓我考試，後來發現在系統裡面發現是名字之間的連字符號(-)，系統上沒填到，馬上進入系統更新，重新進入 PSI 系統裡面，等待監考官檢查考試環境和證件，當時應該滿多人考試，等待時間很長，大約半小時，也是剛好提醒監考官系統名字有更新，才能夠順利考試。&lt;&#x2F;p&gt;
+&lt;p&gt;(!) 名字一定要跟護照一模一樣(包含連字號)，其他證件基本上沒有英文名字是不能證明，信用卡也是不行，這點千萬要注意。&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;kao-shi-ji-qiao&quot;&gt;考試技巧&lt;a class=&quot;zola-anchor&quot; href=&quot;#kao-shi-ji-qiao&quot; aria-label=&quot;Anchor link for: kao-shi-ji-qiao&quot;&gt;
+    &lt;svg class=&quot;zola-anchor-link&quot; viewBox=&quot;0 0 16 16&quot; version=&quot;1.1&quot; width=&quot;16&quot; height=&quot;16&quot; aria-hidden=&quot;true&quot;&gt;
+        &lt;path fill-rule=&quot;evenodd&quot;
+            d=&quot;M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z&quot;&gt;
+        &lt;&#x2F;path&gt;
+    &lt;&#x2F;svg&gt;
+&lt;&#x2F;a&gt;
+&lt;&#x2F;h2&gt;
+&lt;ul&gt;
+&lt;li&gt;螢幕能夠越大越好，基本上題目和參考資料顯示各一半，所以文件查找或是尋找 keyword 都有點困難。&lt;&#x2F;li&gt;
+&lt;li&gt;基本上沒有時間每題都查文件，能夠用 kubectl 產生就使用 kubectl 產生。&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;h2 id=&quot;kao-shi-hou&quot;&gt;考試後&lt;a class=&quot;zola-anchor&quot; href=&quot;#kao-shi-hou&quot; aria-label=&quot;Anchor link for: kao-shi-hou&quot;&gt;
+    &lt;svg class=&quot;zola-anchor-link&quot; viewBox=&quot;0 0 16 16&quot; version=&quot;1.1&quot; width=&quot;16&quot; height=&quot;16&quot; aria-hidden=&quot;true&quot;&gt;
+        &lt;path fill-rule=&quot;evenodd&quot;
+            d=&quot;M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z&quot;&gt;
+        &lt;&#x2F;path&gt;
+    &lt;&#x2F;svg&gt;
+&lt;&#x2F;a&gt;
+&lt;&#x2F;h2&gt;
+&lt;p&gt;大概 24 小時之後，可以從網站查詢到成績，也會寄信通知。&lt;&#x2F;p&gt;
+</content>
+        
+    </entry>
+    <entry xml:lang="en">
+        <title>那些年上過的課程 - 極速開發</title>
+        <published>2022-04-22T00:00:00+00:00</published>
+        <updated>2023-01-20T00:00:00+00:00</updated>
+        
+        <author>
+          <name>
+            
+              Unknown
+            
+          </name>
+        </author>
+        
+        <link rel="alternate" type="text/html" href="https://wclee.me/blog/2022-04-22/"/>
+        <id>https://wclee.me/blog/2022-04-22/</id>
+        
+        <content type="html" xml:base="https://wclee.me/blog/2022-04-22/">&lt;h1 id=&quot;qian-yan&quot;&gt;前言&lt;a class=&quot;zola-anchor&quot; href=&quot;#qian-yan&quot; aria-label=&quot;Anchor link for: qian-yan&quot;&gt;
+    &lt;svg class=&quot;zola-anchor-link&quot; viewBox=&quot;0 0 16 16&quot; version=&quot;1.1&quot; width=&quot;16&quot; height=&quot;16&quot; aria-hidden=&quot;true&quot;&gt;
+        &lt;path fill-rule=&quot;evenodd&quot;
+            d=&quot;M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z&quot;&gt;
+        &lt;&#x2F;path&gt;
+    &lt;&#x2F;svg&gt;
+&lt;&#x2F;a&gt;
+&lt;&#x2F;h1&gt;
+&lt;p&gt;一開始想上這門課是之前上過 91 的 TDD和重構，也想知道利用這樣的開發方式能夠改善多少開發時間，因為開發週期變快，開發和測試時間相對也被壓縮，大部分都是先開發功能，後面測試後補，以前的開發方式雖然也是先寫測試，但通常都是邊想測試邊寫程式碼，完全沒有辦法同時還加上重構。&lt;&#x2F;p&gt;
+&lt;h1 id=&quot;ke-hou-gan-xiang&quot;&gt;課後感想&lt;a class=&quot;zola-anchor&quot; href=&quot;#ke-hou-gan-xiang&quot; aria-label=&quot;Anchor link for: ke-hou-gan-xiang&quot;&gt;
+    &lt;svg class=&quot;zola-anchor-link&quot; viewBox=&quot;0 0 16 16&quot; version=&quot;1.1&quot; width=&quot;16&quot; height=&quot;16&quot; aria-hidden=&quot;true&quot;&gt;
+        &lt;path fill-rule=&quot;evenodd&quot;
+            d=&quot;M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z&quot;&gt;
+        &lt;&#x2F;path&gt;
+    &lt;&#x2F;svg&gt;
+&lt;&#x2F;a&gt;
+&lt;&#x2F;h1&gt;
+&lt;p&gt;沒上這門課之前，即使已經有Tennis Kaka 的測試案例，可能會覺得也是要花上幾個小時，甚至幾天，才能把程式碼建構出來。但這門課展示了極速開發的可行性，只要你熟悉了這些工具，是可以在半小時(甚至更短)就把程式碼完成，並且包含可測試性的程式碼。&lt;&#x2F;p&gt;
+&lt;p&gt;這門課程的另一個精神就是檢視流程，消除浪費。我們可能會覺得開會很浪費時間，而希望開會少一點，但日常工作也有很多事情是在浪費，可能是搬移函式、修改變數、重構某個檔案，大一點可能是查找資料或找訂便當系統訂下午茶，有很多工具都幫助你自動化這些重複的任務，一旦簡化這些工作流程，就可以把心思放在需要心智的事情上，例如，用另外一隻手喝飲料或是跟旁邊同事聊天之類。&lt;&#x2F;p&gt;
+&lt;p&gt;課前有先看幾位上過極速開發的”學長”的部落格和練習方式，一開始會專注於影片按下什麼鍵，經過幾次練習大概就可以猜出快捷鍵的作用和基本的vim操作，但熟悉這些快捷鍵之後，想的就不會是你要搬移函式到哪，而是為什麼這時候要重構，重構了什麼，之後程式碼會變成怎樣，要怎樣才能夠得到想要的結果，甚至想錯了要怎樣能快速改正。達到讓腦袋思考完，程式碼也寫完了。&lt;&#x2F;p&gt;
+&lt;p&gt;經過課前看完影片和練習後，課堂上的 vim 的入門講解，讓我了解原本不知道的命令和解答一些原本不直覺的地方，或是影片哪些步驟想法上會和老師有差異，這對後來的課後作業很有幫助。&lt;&#x2F;p&gt;
+&lt;p&gt;課前我自己的開發方式大概是想一個測試，然後寫程式碼，然後邊想測試邊寫程式碼，然後想程式碼要怎麼寫比較好，但往往程式碼是越來越複雜，中途就會放棄寫測試案例了，課後會要求自己先想好測試案例，再慢慢用課程教到的技巧把程式碼建構出來，也會不斷提醒自己回顧工作上能夠優化的流程或步驟，最近雖然沒有在開發新功能，但必須要大量的查看程式碼，就會利用在課堂上學到的技巧，快速列出 method callback 或是 caller stack，讓工具加快 trace code 的流程，盡量讓自己的工作效率最大化，而不是”沒有時間”。&lt;&#x2F;p&gt;
+</content>
+        
+    </entry>
+    <entry xml:lang="en">
+        <title>Implement handle error in Function Azure App</title>
+        <published>2021-01-22T00:00:00+00:00</published>
+        <updated>2021-01-22T00:00:00+00:00</updated>
+        
+        <author>
+          <name>
+            
+              Unknown
+            
+          </name>
+        </author>
+        
+        <link rel="alternate" type="text/html" href="https://wclee.me/blog/2021-01-22/"/>
+        <id>https://wclee.me/blog/2021-01-22/</id>
+        
+        <content type="html" xml:base="https://wclee.me/blog/2021-01-22/">&lt;pre data-lang=&quot;css&quot; class=&quot;language-css z-code&quot;&gt;&lt;code class=&quot;language-css&quot; data-lang=&quot;css&quot;&gt;&lt;span class=&quot;z-source z-css&quot;&gt;&lt;span class=&quot;z-meta z-property-list z-css&quot;&gt;&lt;span class=&quot;z-punctuation z-section z-property-list z-css&quot;&gt;{&lt;&#x2F;span&gt;
+&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-css&quot;&gt;&lt;span class=&quot;z-meta z-property-list z-css&quot;&gt;    &amp;quot;&lt;span class=&quot;z-meta z-property-name z-css&quot;&gt;disabled&lt;&#x2F;span&gt;&amp;quot;&lt;span class=&quot;z-punctuation z-separator z-key-value z-css&quot;&gt;:&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-property-value z-css&quot;&gt;false,
+&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-css&quot;&gt;&lt;span class=&quot;z-meta z-property-list z-css&quot;&gt;&lt;span class=&quot;z-meta z-property-value z-css&quot;&gt;    &lt;span class=&quot;z-string z-quoted z-double z-css&quot;&gt;&lt;span class=&quot;z-punctuation z-definition z-string z-begin z-css&quot;&gt;&amp;quot;&lt;&#x2F;span&gt;bindings&lt;span class=&quot;z-punctuation z-definition z-string z-end z-css&quot;&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;:&lt;span class=&quot;z-punctuation z-section z-begin z-css&quot;&gt;[&lt;&#x2F;span&gt;
+&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-css&quot;&gt;&lt;span class=&quot;z-meta z-property-list z-css&quot;&gt;&lt;span class=&quot;z-meta z-property-value z-css&quot;&gt;        &#x2F;&#x2F; ... &lt;span class=&quot;z-string z-unquoted z-line-name z-css&quot;&gt;bindings&lt;&#x2F;span&gt; &lt;span class=&quot;z-string z-unquoted z-line-name z-css&quot;&gt;here&lt;&#x2F;span&gt;
+&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-css&quot;&gt;&lt;span class=&quot;z-meta z-property-list z-css&quot;&gt;&lt;span class=&quot;z-meta z-property-value z-css&quot;&gt;        {
+&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-css&quot;&gt;&lt;span class=&quot;z-meta z-property-list z-css&quot;&gt;&lt;span class=&quot;z-meta z-property-value z-css&quot;&gt;            &amp;quot;&lt;span class=&quot;z-string z-unquoted z-line-name z-css&quot;&gt;type&lt;&#x2F;span&gt;&amp;quot;: &amp;quot;&lt;span class=&quot;z-string z-unquoted z-line-name z-css&quot;&gt;bindingType&lt;&#x2F;span&gt;&amp;quot;,
+&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-css&quot;&gt;&lt;span class=&quot;z-meta z-property-list z-css&quot;&gt;&lt;span class=&quot;z-meta z-property-value z-css&quot;&gt;            &amp;quot;&lt;span class=&quot;z-string z-unquoted z-line-name z-css&quot;&gt;direction&lt;&#x2F;span&gt;&amp;quot;: &amp;quot;&lt;span class=&quot;z-string z-unquoted z-line-name z-css&quot;&gt;in&lt;&#x2F;span&gt;&amp;quot;,
+&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-css&quot;&gt;&lt;span class=&quot;z-meta z-property-list z-css&quot;&gt;&lt;span class=&quot;z-meta z-property-value z-css&quot;&gt;            &amp;quot;&lt;span class=&quot;z-string z-unquoted z-line-name z-css&quot;&gt;name&lt;&#x2F;span&gt;&amp;quot;: &amp;quot;&lt;span class=&quot;z-string z-unquoted z-line-name z-css&quot;&gt;myParamName&lt;&#x2F;span&gt;&amp;quot;,
+&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-css&quot;&gt;&lt;span class=&quot;z-meta z-property-list z-css&quot;&gt;&lt;span class=&quot;z-meta z-property-value z-css&quot;&gt;            &#x2F;&#x2F; ... &lt;span class=&quot;z-string z-unquoted z-line-name z-css&quot;&gt;more&lt;&#x2F;span&gt; &lt;span class=&quot;z-string z-unquoted z-line-name z-css&quot;&gt;depending&lt;&#x2F;span&gt; &lt;span class=&quot;z-string z-unquoted z-line-name z-css&quot;&gt;on&lt;&#x2F;span&gt; &lt;span class=&quot;z-string z-unquoted z-line-name z-css&quot;&gt;binding&lt;&#x2F;span&gt;
+&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-css&quot;&gt;&lt;span class=&quot;z-meta z-property-list z-css&quot;&gt;&lt;span class=&quot;z-meta z-property-value z-css&quot;&gt;        }
+&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-css&quot;&gt;&lt;span class=&quot;z-meta z-property-list z-css&quot;&gt;&lt;span class=&quot;z-meta z-property-value z-css&quot;&gt;    &lt;span class=&quot;z-punctuation z-section z-end z-css&quot;&gt;]&lt;&#x2F;span&gt;
+&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-css&quot;&gt;&lt;span class=&quot;z-meta z-property-list z-css&quot;&gt;&lt;span class=&quot;z-meta z-property-value z-css&quot;&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-punctuation z-section z-property-list z-css&quot;&gt;}&lt;&#x2F;span&gt;
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+</content>
+        
+    </entry>
+</feed>
